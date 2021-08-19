@@ -98,11 +98,10 @@ func (g *Game) Draw(screen *ebiten.Image) {
 		location := gameState.gameState.CatLocations[i]
 		sprite.sprite.x = int(location.X)
 		sprite.sprite.y = int(location.Y)
+		sprite.Draw(g, screen)
 	}
 
 	//gameState.mu.Unlock()
-
-	sprite.Draw(g, screen)
 
 }
 

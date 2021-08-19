@@ -1,5 +1,7 @@
 package common
 
+import "sync"
+
 type Location struct {
 	X int
 	Y int
@@ -11,5 +13,6 @@ type Cat struct {
 }
 
 type GameWorld struct {
-	Cats []Cat
+	Mutex sync.Mutex
+	Cats  []Cat
 }

@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"fmt"
 	"log"
 	"math/rand"
 	"net"
@@ -17,14 +18,7 @@ type server struct {
 	catworldpb.UnimplementedCatWorldServiceServer
 }
 
-var cat = common.Cat{
-	Location: common.Location{
-		X: 200,
-		Y: 300,
-	},
-}
-
-var cats = []common.Cat{cat}
+var cats = []common.Cat{}
 var gameWorld = common.GameWorld{
 	Cats: cats,
 }
@@ -33,20 +27,38 @@ var r = rand.New(rand.NewSource(99))
 
 func SimulateGameWorld() {
 	time.Sleep(1 * time.Second)
+	fmt.Printf("Simulating Game World with %v cats\n", len(gameWorld.Cats))
 
-	randomLocation := common.Location{
+	gameWorld.Mutex.Lock()
+	defer gameWorld.Mutex.Unlock()
+
+	for catIndex := range gameWorld.Cats {
+		randomLocation := GenerateRandomLocation()
+		gameWorld.Cats[catIndex].Location = common.Location{
+			X: randomLocation.X,
+			Y: randomLocation.Y,
+		}
+	}
+}
+
+func GenerateRandomLocation() common.Location {
+	return common.Location{
 		X: int(r.Float64() * 600),
 		Y: int(r.Float64() * 480),
-	}
-
-	gameWorld.Cats[0].Location = common.Location{
-		X: randomLocation.X,
-		Y: randomLocation.Y,
 	}
 }
 
 func (*server) Connect(ctx context.Context, req *catworldpb.ConnectRequest) (*catworldpb.ConnectResponse, error) {
+	gameWorld.Mutex.Lock()
+	defer gameWorld.Mutex.Unlock()
+
 	// No auth so it just works
+
+	// Add a cat
+	newCat := common.Cat{
+		Location: GenerateRandomLocation(),
+	}
+	gameWorld.Cats = append(gameWorld.Cats, newCat)
 
 	return &catworldpb.ConnectResponse{
 		Success: true,
@@ -54,14 +66,18 @@ func (*server) Connect(ctx context.Context, req *catworldpb.ConnectRequest) (*ca
 }
 
 func (*server) GetGameState(ctx context.Context, req *catworldpb.GetGameStateRequest) (*catworldpb.GetGameStateResponse, error) {
+	gameWorld.Mutex.Lock()
+	defer gameWorld.Mutex.Unlock()
 
-	location := gameWorld.Cats[0].Location
+	locations := make([]*catworldpb.GetGameStateResponse_Location, len(gameWorld.Cats))
 
-	locations := []*catworldpb.GetGameStateResponse_Location{
-		{
-			X: int32(location.X),
-			Y: int32(location.Y),
-		},
+	for catIndex := range gameWorld.Cats {
+		cat := gameWorld.Cats[catIndex]
+
+		locations[catIndex] = &catworldpb.GetGameStateResponse_Location{
+			X: int32(cat.Location.X),
+			Y: int32(cat.Location.Y),
+		}
 	}
 
 	return &catworldpb.GetGameStateResponse{
