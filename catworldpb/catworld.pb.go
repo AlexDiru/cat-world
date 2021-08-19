@@ -114,6 +114,146 @@ func (x *ConnectResponse) GetSuccess() bool {
 	return false
 }
 
+type GetGameStateRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+}
+
+func (x *GetGameStateRequest) Reset() {
+	*x = GetGameStateRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_catworldpb_catworld_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetGameStateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGameStateRequest) ProtoMessage() {}
+
+func (x *GetGameStateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_catworldpb_catworld_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGameStateRequest.ProtoReflect.Descriptor instead.
+func (*GetGameStateRequest) Descriptor() ([]byte, []int) {
+	return file_catworldpb_catworld_proto_rawDescGZIP(), []int{2}
+}
+
+type GetGameStateResponse struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	CatLocations []*GetGameStateResponse_Location `protobuf:"bytes,1,rep,name=catLocations,proto3" json:"catLocations,omitempty"`
+}
+
+func (x *GetGameStateResponse) Reset() {
+	*x = GetGameStateResponse{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_catworldpb_catworld_proto_msgTypes[3]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetGameStateResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGameStateResponse) ProtoMessage() {}
+
+func (x *GetGameStateResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_catworldpb_catworld_proto_msgTypes[3]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGameStateResponse.ProtoReflect.Descriptor instead.
+func (*GetGameStateResponse) Descriptor() ([]byte, []int) {
+	return file_catworldpb_catworld_proto_rawDescGZIP(), []int{3}
+}
+
+func (x *GetGameStateResponse) GetCatLocations() []*GetGameStateResponse_Location {
+	if x != nil {
+		return x.CatLocations
+	}
+	return nil
+}
+
+type GetGameStateResponse_Location struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	X int32 `protobuf:"varint,1,opt,name=x,proto3" json:"x,omitempty"`
+	Y int32 `protobuf:"varint,2,opt,name=y,proto3" json:"y,omitempty"`
+}
+
+func (x *GetGameStateResponse_Location) Reset() {
+	*x = GetGameStateResponse_Location{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_catworldpb_catworld_proto_msgTypes[4]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *GetGameStateResponse_Location) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*GetGameStateResponse_Location) ProtoMessage() {}
+
+func (x *GetGameStateResponse_Location) ProtoReflect() protoreflect.Message {
+	mi := &file_catworldpb_catworld_proto_msgTypes[4]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use GetGameStateResponse_Location.ProtoReflect.Descriptor instead.
+func (*GetGameStateResponse_Location) Descriptor() ([]byte, []int) {
+	return file_catworldpb_catworld_proto_rawDescGZIP(), []int{3, 0}
+}
+
+func (x *GetGameStateResponse_Location) GetX() int32 {
+	if x != nil {
+		return x.X
+	}
+	return 0
+}
+
+func (x *GetGameStateResponse_Location) GetY() int32 {
+	if x != nil {
+		return x.Y
+	}
+	return 0
+}
+
 var File_catworldpb_catworld_proto protoreflect.FileDescriptor
 
 var file_catworldpb_catworld_proto_rawDesc = []byte{
@@ -125,14 +265,29 @@ var file_catworldpb_catworld_proto_rawDesc = []byte{
 	0x61, 0x6d, 0x65, 0x22, 0x2b, 0x0a, 0x0f, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x52, 0x65,
 	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73,
 	0x73, 0x18, 0x01, 0x20, 0x01, 0x28, 0x08, 0x52, 0x07, 0x73, 0x75, 0x63, 0x63, 0x65, 0x73, 0x73,
-	0x32, 0x53, 0x0a, 0x0f, 0x43, 0x61, 0x74, 0x57, 0x6f, 0x72, 0x6c, 0x64, 0x53, 0x65, 0x72, 0x76,
-	0x69, 0x63, 0x65, 0x12, 0x40, 0x0a, 0x07, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x12, 0x18,
+	0x22, 0x15, 0x0a, 0x13, 0x47, 0x65, 0x74, 0x47, 0x61, 0x6d, 0x65, 0x53, 0x74, 0x61, 0x74, 0x65,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x8b, 0x01, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x47,
+	0x61, 0x6d, 0x65, 0x53, 0x74, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x4b, 0x0a, 0x0c, 0x63, 0x61, 0x74, 0x4c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73,
+	0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x27, 0x2e, 0x63, 0x61, 0x74, 0x77, 0x6f, 0x72, 0x6c,
+	0x64, 0x2e, 0x47, 0x65, 0x74, 0x47, 0x61, 0x6d, 0x65, 0x53, 0x74, 0x61, 0x74, 0x65, 0x52, 0x65,
+	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x2e, 0x4c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x52,
+	0x0c, 0x63, 0x61, 0x74, 0x4c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x1a, 0x26, 0x0a,
+	0x08, 0x4c, 0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x0c, 0x0a, 0x01, 0x78, 0x18, 0x01,
+	0x20, 0x01, 0x28, 0x05, 0x52, 0x01, 0x78, 0x12, 0x0c, 0x0a, 0x01, 0x79, 0x18, 0x02, 0x20, 0x01,
+	0x28, 0x05, 0x52, 0x01, 0x79, 0x32, 0xa4, 0x01, 0x0a, 0x0f, 0x43, 0x61, 0x74, 0x57, 0x6f, 0x72,
+	0x6c, 0x64, 0x53, 0x65, 0x72, 0x76, 0x69, 0x63, 0x65, 0x12, 0x40, 0x0a, 0x07, 0x43, 0x6f, 0x6e,
+	0x6e, 0x65, 0x63, 0x74, 0x12, 0x18, 0x2e, 0x63, 0x61, 0x74, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x2e,
+	0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x19,
 	0x2e, 0x63, 0x61, 0x74, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x2e, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63,
-	0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x19, 0x2e, 0x63, 0x61, 0x74, 0x77, 0x6f,
-	0x72, 0x6c, 0x64, 0x2e, 0x43, 0x6f, 0x6e, 0x6e, 0x65, 0x63, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x17, 0x5a, 0x15, 0x2e, 0x2f, 0x63, 0x61, 0x74, 0x77, 0x6f,
-	0x72, 0x6c, 0x64, 0x2f, 0x63, 0x61, 0x74, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x70, 0x62, 0x62, 0x06,
-	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x12, 0x4f, 0x0a, 0x0c, 0x47,
+	0x65, 0x74, 0x47, 0x61, 0x6d, 0x65, 0x53, 0x74, 0x61, 0x74, 0x65, 0x12, 0x1d, 0x2e, 0x63, 0x61,
+	0x74, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x2e, 0x47, 0x65, 0x74, 0x47, 0x61, 0x6d, 0x65, 0x53, 0x74,
+	0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x1e, 0x2e, 0x63, 0x61, 0x74,
+	0x77, 0x6f, 0x72, 0x6c, 0x64, 0x2e, 0x47, 0x65, 0x74, 0x47, 0x61, 0x6d, 0x65, 0x53, 0x74, 0x61,
+	0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x00, 0x42, 0x17, 0x5a, 0x15,
+	0x2e, 0x2f, 0x63, 0x61, 0x74, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x2f, 0x63, 0x61, 0x74, 0x77, 0x6f,
+	0x72, 0x6c, 0x64, 0x70, 0x62, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -147,19 +302,25 @@ func file_catworldpb_catworld_proto_rawDescGZIP() []byte {
 	return file_catworldpb_catworld_proto_rawDescData
 }
 
-var file_catworldpb_catworld_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_catworldpb_catworld_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
 var file_catworldpb_catworld_proto_goTypes = []interface{}{
-	(*ConnectRequest)(nil),  // 0: catworld.ConnectRequest
-	(*ConnectResponse)(nil), // 1: catworld.ConnectResponse
+	(*ConnectRequest)(nil),                // 0: catworld.ConnectRequest
+	(*ConnectResponse)(nil),               // 1: catworld.ConnectResponse
+	(*GetGameStateRequest)(nil),           // 2: catworld.GetGameStateRequest
+	(*GetGameStateResponse)(nil),          // 3: catworld.GetGameStateResponse
+	(*GetGameStateResponse_Location)(nil), // 4: catworld.GetGameStateResponse.Location
 }
 var file_catworldpb_catworld_proto_depIdxs = []int32{
-	0, // 0: catworld.CatWorldService.Connect:input_type -> catworld.ConnectRequest
-	1, // 1: catworld.CatWorldService.Connect:output_type -> catworld.ConnectResponse
-	1, // [1:2] is the sub-list for method output_type
-	0, // [0:1] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+	4, // 0: catworld.GetGameStateResponse.catLocations:type_name -> catworld.GetGameStateResponse.Location
+	0, // 1: catworld.CatWorldService.Connect:input_type -> catworld.ConnectRequest
+	2, // 2: catworld.CatWorldService.GetGameState:input_type -> catworld.GetGameStateRequest
+	1, // 3: catworld.CatWorldService.Connect:output_type -> catworld.ConnectResponse
+	3, // 4: catworld.CatWorldService.GetGameState:output_type -> catworld.GetGameStateResponse
+	3, // [3:5] is the sub-list for method output_type
+	1, // [1:3] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
 func init() { file_catworldpb_catworld_proto_init() }
@@ -192,6 +353,42 @@ func file_catworldpb_catworld_proto_init() {
 				return nil
 			}
 		}
+		file_catworldpb_catworld_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetGameStateRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_catworldpb_catworld_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetGameStateResponse); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_catworldpb_catworld_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetGameStateResponse_Location); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -199,7 +396,7 @@ func file_catworldpb_catworld_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_catworldpb_catworld_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   5,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

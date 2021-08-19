@@ -34,6 +34,9 @@ type RenderableCat struct {
 	image  *ebiten.Image
 }
 
+var catWorldServiceClient catworldpb.CatWorldServiceClient
+var sprite *RenderableCat
+
 func (r *RenderableCat) Draw(g *Game, screen *ebiten.Image) {
 	w, h := r.image.Size()
 	s := r.sprite
@@ -83,21 +86,46 @@ func (g *Game) Init() {
 		g.inited = true
 	}()
 
+	sprite = CreateCatSprite()
+
+	fmt.Println("Finished initing")
 }
 
 func (g *Game) Draw(screen *ebiten.Image) {
-	sprite := CreateCatSprite()
+	//gameState.mu.Lock()
+
+	for i := range gameState.gameState.CatLocations {
+		location := gameState.gameState.CatLocations[i]
+		sprite.sprite.x = int(location.X)
+		sprite.sprite.y = int(location.Y)
+	}
+
+	//gameState.mu.Unlock()
+
 	sprite.Draw(g, screen)
+
 }
 
 func (g *Game) Layout(outsideWidth, outsideHeight int) (screenWidth, screenHeight int) {
 	return 640, 480
 }
 
+type GameState struct {
+	gameState *catworldpb.GetGameStateResponse
+}
+
+var gameState GameState
+
 func (g *Game) Update() error {
-	//if !g.inited {
-	g.Init()
-	//}
+	if !g.inited {
+		g.Init()
+	}
+
+	// gameState.mu.Lock()
+
+	gameState.gameState = GetGameState()
+
+	// gameState.mu.Unlock()
 
 	return nil
 }
@@ -112,9 +140,9 @@ func main() {
 
 	defer conn.Close()
 
-	client := catworldpb.NewCatWorldServiceClient(conn)
+	catWorldServiceClient = catworldpb.NewCatWorldServiceClient(conn)
 
-	ConnectToServer(client, "alex")
+	ConnectToServer("alex")
 
 	ebiten.SetWindowSize(640, 480)
 	ebiten.SetWindowTitle("Cat World")
@@ -125,14 +153,22 @@ func main() {
 	}
 }
 
-func ConnectToServer(client catworldpb.CatWorldServiceClient, username string) {
+func ConnectToServer(username string) {
 	req := &catworldpb.ConnectRequest{
 		Username: username,
 	}
 
-	res, _ := client.Connect(context.Background(), req)
+	res, _ := catWorldServiceClient.Connect(context.Background(), req)
 
 	if res.GetSuccess() {
 		fmt.Println("Successfully connected")
 	}
+}
+
+func GetGameState() *catworldpb.GetGameStateResponse {
+	req := &catworldpb.GetGameStateRequest{}
+
+	res, _ := catWorldServiceClient.GetGameState(context.Background(), req)
+
+	return res
 }

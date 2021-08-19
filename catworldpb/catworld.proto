@@ -11,6 +11,20 @@ message ConnectResponse {
     bool success = 1;
 }
 
+message GetGameStateRequest {
+
+}
+
+message GetGameStateResponse {
+    message Location {
+        int32 x = 1;
+        int32 y = 2;
+    }
+
+    repeated Location catLocations = 1;
+}
+
 service CatWorldService {
     rpc Connect(ConnectRequest) returns (ConnectResponse) {};
+    rpc GetGameState(GetGameStateRequest) returns (GetGameStateResponse) {};
 }

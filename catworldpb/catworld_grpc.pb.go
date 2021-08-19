@@ -19,6 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type CatWorldServiceClient interface {
 	Connect(ctx context.Context, in *ConnectRequest, opts ...grpc.CallOption) (*ConnectResponse, error)
+	GetGameState(ctx context.Context, in *GetGameStateRequest, opts ...grpc.CallOption) (*GetGameStateResponse, error)
 }
 
 type catWorldServiceClient struct {
@@ -38,11 +39,21 @@ func (c *catWorldServiceClient) Connect(ctx context.Context, in *ConnectRequest,
 	return out, nil
 }
 
+func (c *catWorldServiceClient) GetGameState(ctx context.Context, in *GetGameStateRequest, opts ...grpc.CallOption) (*GetGameStateResponse, error) {
+	out := new(GetGameStateResponse)
+	err := c.cc.Invoke(ctx, "/catworld.CatWorldService/GetGameState", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // CatWorldServiceServer is the server API for CatWorldService service.
 // All implementations must embed UnimplementedCatWorldServiceServer
 // for forward compatibility
 type CatWorldServiceServer interface {
 	Connect(context.Context, *ConnectRequest) (*ConnectResponse, error)
+	GetGameState(context.Context, *GetGameStateRequest) (*GetGameStateResponse, error)
 	mustEmbedUnimplementedCatWorldServiceServer()
 }
 
@@ -52,6 +63,9 @@ type UnimplementedCatWorldServiceServer struct {
 
 func (UnimplementedCatWorldServiceServer) Connect(context.Context, *ConnectRequest) (*ConnectResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Connect not implemented")
+}
+func (UnimplementedCatWorldServiceServer) GetGameState(context.Context, *GetGameStateRequest) (*GetGameStateResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGameState not implemented")
 }
 func (UnimplementedCatWorldServiceServer) mustEmbedUnimplementedCatWorldServiceServer() {}
 
@@ -84,6 +98,24 @@ func _CatWorldService_Connect_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _CatWorldService_GetGameState_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGameStateRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(CatWorldServiceServer).GetGameState(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/catworld.CatWorldService/GetGameState",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(CatWorldServiceServer).GetGameState(ctx, req.(*GetGameStateRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // CatWorldService_ServiceDesc is the grpc.ServiceDesc for CatWorldService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -94,6 +126,10 @@ var CatWorldService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Connect",
 			Handler:    _CatWorldService_Connect_Handler,
+		},
+		{
+			MethodName: "GetGameState",
+			Handler:    _CatWorldService_GetGameState_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
