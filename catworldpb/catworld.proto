@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package catworld;
+option go_package="./catworld/catworldpb";
+
+message ConnectRequest {
+    string username = 1;
+}
+
+message ConnectResponse {
+    bool success = 1;
+}
+
+service CatWorldService {
+    rpc Connect(ConnectRequest) returns (ConnectResponse) {};
+}
